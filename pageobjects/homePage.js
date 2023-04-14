@@ -23,6 +23,13 @@ const sortByPriceBtn = By.xpath('//select[@name="searchSortBy"]/option[@value="p
 const filterOptions = By.css('form.filter-menu > div > label');
 const filterResultsBtn = By.xpath('//button[contains(text(),"Refine results")]');
 
+const addToCartPopupWindow = By.css('.status-success.in > div > div')
+const continueAddingToCart = By.css('a.btn.btn-primary.pull-right.continue-to-basket.string-to-localize.link-to-localize')
+
+const addCartButton = By.css('div:nth-child(1) > div.item-actions > div')
+const continueShoping = By.css(' div.basket-info > a.btn.btn-secondary.pull-left.continue-shopping.string-to-localize')
+
+
 module.exports = class HomePage extends Page {
     constructor(driver) {
         super(driver);
@@ -79,7 +86,7 @@ module.exports = class HomePage extends Page {
         let searchItems = await super.getElements(searchResultsItemPrice);
         
         //Verify that the products are sorted correctly.
-        let price1 = parseFloat((await searchItems[0].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
+        let price1 = parsasexeFloat((await searchItems[0].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
         let price2 = parseFloat((await searchItems[1].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
 
         expect(price1).toBeGreaterThanOrEqual(price2)
@@ -109,5 +116,19 @@ module.exports = class HomePage extends Page {
 
         expect(searchCountFilteredNum).toBeLessThan(searchCountNum)
     }
+    async addElementInCart(choosenIndex){
+        const addCartButton = By.css(`div:nth-child(${choosenIndex}) > div.item-actions > div`)
+        await super.clickButton(addCartButton)
+    }
+    async checkIfButtonExists(){
+        expect(addCartButton).isDisplayed().toBe(true)
+    }
+    async checkAddToCartPopupWindow(){
+        expect(addToCartPopupWindow).isDisplayed().toBe(true)
+    }
+    async continueShoping(){
+        await super.clickButton(continueAddingToCart)
+    }
+    
 
 }

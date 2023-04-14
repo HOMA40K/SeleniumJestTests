@@ -17,7 +17,7 @@ describe('Search products', () => {
         driver = await new Builder()
         .forBrowser('chrome')
         // If you dont want to open browser, uncomment following row
-        .setChromeOptions(new chrome.Options().addArguments('--headless'))
+        //.setChromeOptions(new chrome.Options().addArguments('--headless'))
         .build()
         driver.manage().setTimeouts({implicit: TIMEOUT, pageLoad: TIMEOUT, script: TIMEOUT})
         driver.manage().window().maximize()
@@ -25,6 +25,11 @@ describe('Search products', () => {
         HomePage = new HomePage(driver)
 
         await HomePage.openUrl()
+        const closeDumbMenu = By.className('modal-content')
+        const closeDumbMenuButt = By.css('div.modal-header > button.close')
+        //if (closeDumbMenu.isDisplayed()){
+            await HomePage.clickButton(closeDumbMenuButt)
+        //}
         await HomePage.agreeWithCookies()
         
     })
