@@ -25,6 +25,7 @@ const filterResultsBtn = By.xpath('//button[contains(text(),"Refine results")]')
 
 const addCartButton = By.css('div:nth-child(1) > div.item-actions > div')
 const continueAddingToCart = By.css('a.btn.btn-primary.pull-right.continue-to-basket.string-to-localize.link-to-localize')
+
 const goInBasketButton = By.css('a.btn.btn-primary.pull-right.continue-to-basket.string-to-localize.link-to-localize')
 
 const cartItemsAmount = By.css('.right-section > div > a.basket-btn > span')
@@ -43,7 +44,7 @@ module.exports = class CartPage extends Page {
     async checkCartItems(choosenAmount){
         const cartItemsAmountText = await super.getElementText(cartItemsAmount);
         console.log(cartItemsAmountText)
-        expect(cartItemsAmountText).toContain(`${choosenAmount}`)
+        expect(cartItemsAmountText).toContain(choosenAmount)
     }
     async deleteItem(){
         await super.clickButton(deleteButton)

@@ -14,8 +14,9 @@ describe('Add products to cart', () => {
 
         driver = await new Builder()
         .forBrowser('chrome')
-        // If you dont want to open browser, uncomment following row
+        // If you dont want to open browser, uncomment line between comments
         //.setChromeOptions(new chrome.Options().addArguments('--headless'))
+        //
         .build()
         driver.manage().setTimeouts({implicit: TIMEOUT, pageLoad: TIMEOUT, script: TIMEOUT})
         driver.manage().window().maximize()
@@ -27,7 +28,7 @@ describe('Add products to cart', () => {
         const closeDumbMenu = By.className('modal-content')
         const closeDumbMenuButt = By.css('div.modal-header > button.close')
         //if (closeDumbMenu.isDisplayed()){
-            await HomePage.clickButton(closeDumbMenuButt)
+        await HomePage.clickButton(closeDumbMenuButt)
         //}
         await HomePage.agreeWithCookies()
         
@@ -54,10 +55,10 @@ describe('Add products to cart', () => {
         await HomePage.addElementInCart(1)
     })
     test('Test If Notified About Adding To Cart', async () =>{
-        //await HomePage.checkAddToCartPopupWindow()
+        await HomePage.checkAddToCartPopupWindow()
         await HomePage.continueShoping()
     })
-    test('Test Adding another item and going in ', async () =>{
+    test('Test Adding another item and going in', async () =>{
         await HomePage.addElementInCart(2)
         await CartPage.goInBasket()
     })

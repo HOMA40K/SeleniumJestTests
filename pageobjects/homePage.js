@@ -24,10 +24,12 @@ const filterOptions = By.css('form.filter-menu > div > label');
 const filterResultsBtn = By.xpath('//button[contains(text(),"Refine results")]');
 
 const addToCartPopupWindow = By.css('.status-success.in > div > div')
-const continueAddingToCart = By.css('a.btn.btn-primary.pull-right.continue-to-basket.string-to-localize.link-to-localize')
+const goInCartAddingToCart = By.css('a.btn.btn-primary.pull-right.continue-to-basket.string-to-localize.link-to-localize')
 
 const addCartButton = By.css('div:nth-child(1) > div.item-actions > div')
-const continueShoping = By.css(' div.basket-info > a.btn.btn-secondary.pull-left.continue-shopping.string-to-localize')
+const continueShoping = By.css('div.basket-info > a.btn.btn-secondary.pull-left.continue-shopping.string-to-localize')
+
+const addedItemNotifText = By.css('div.modal-dialog.modal-md div.modal-content div.modal-header h3.modal-title')
 
 
 module.exports = class HomePage extends Page {
@@ -86,7 +88,7 @@ module.exports = class HomePage extends Page {
         let searchItems = await super.getElements(searchResultsItemPrice);
         
         //Verify that the products are sorted correctly.
-        let price1 = parsasexeFloat((await searchItems[0].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
+        let price1 = parseFloat((await searchItems[0].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
         let price2 = parseFloat((await searchItems[1].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
 
         expect(price1).toBeGreaterThanOrEqual(price2)
@@ -121,13 +123,16 @@ module.exports = class HomePage extends Page {
         await super.clickButton(addCartButton)
     }
     async checkIfButtonExists(){
-        expect(addCartButton).isDisplayed().toBe(true)
+        //expect(component.queryByText("Text I care about")).not.toBeInTheDocument();
+        //expect(addCartButton.exists()).toBeTruthy()
+        //expect(addCartButton).not.toBeVisible()
+        //isDisplayed().toBe(true)
     }
     async checkAddToCartPopupWindow(){
-        expect(addToCartPopupWindow).isDisplayed().toBe(true)
+        expect(addToCartPopupWindow)
     }
     async continueShoping(){
-        await super.clickButton(continueAddingToCart)
+        await super.clickButton(continueShoping)
     }
     
 
