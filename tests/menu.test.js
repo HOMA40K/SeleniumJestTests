@@ -25,12 +25,6 @@ describe('Add products to cart', () => {
         CartPage = new CartPage(driver)
 
         await HomePage.openUrl()
-        const closeDumbMenu = By.className('modal-content')
-        const closeDumbMenuButt = By.css('div.modal-header > button.close')
-        //if (closeDumbMenu.isDisplayed()){
-        await HomePage.clickButton(closeDumbMenuButt)
-        //}
-        await HomePage.agreeWithCookies()
         
     })
 
@@ -42,6 +36,6 @@ describe('Add products to cart', () => {
     })
 
     test('Test Open Web Page', async () => {
-        await HomePage.verifyPageTitleContains('Bookdepository.com')
+        await HomePage.verifyPageTitleContains('abebooks.com')
     })
 })

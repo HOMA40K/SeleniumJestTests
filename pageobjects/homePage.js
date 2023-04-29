@@ -1,7 +1,7 @@
 const Page = require('./basePage');
-const {By} = require('selenium-webdriver')
+const { By } = require('selenium-webdriver')
 
-const baseUrl = 'https://www.bookdepository.com/'
+const baseUrl = 'https://www.abebooks.com/'
 
 let searchCountNum;
 
@@ -9,13 +9,15 @@ let searchCountNum;
 const cookiesConsentBtn = By.css('div.cookie-consent > div.cookie-consent-buttons > button.btn.btn-sm.btn-yes');
 const brandLinkHeader = By.xpath('//h1/a[@class="brand-link"]/img');
 
-const searchField = By.css('#book-search-form > div > input[name="searchTerm"]');
-const searchBtn = By.className('header-search-btn');
-const searchResultHeader = By.css('div.main-content.search-page > h1');
-const searchResultCount = By.className('search-count');
+const searchField = By.css('input#header-searchbox-input.gnav-searchbox-input');
+const searchBtn = By.className('button#header-searchbox-button.gnav-searchbox-button');
+const searchResultHeader = By.css('div#pageHeader h1');
+const searchResultCount = By.className('b#topbar-search-result-count-header');
 const searchResultItemTitle = By.css('div.item-info > h3.title');
 const searchResultItemFormat = By.css('div.item-info > p.format');
-const searchResultsItemPrice = By.css('span.sale-price');
+const searchResultsItemPrice = By.css('p#item-price-1.item-price');
+const searchResultsItemPrice2 = By.css('p#item-price-2.item-price');
+
 
 const sortOptions = By.xpath('//select[@name="searchSortBy"]/option');
 const sortByPriceBtn = By.xpath('//select[@name="searchSortBy"]/option[@value="price_high_low"]');
@@ -52,7 +54,7 @@ module.exports = class HomePage extends Page {
     }
 
     async searchForText(text) {
-        await super.sendText(searchField, text);        
+        await super.sendText(searchField, text);
         await super.clickButton(searchBtn);
     }
 
@@ -64,7 +66,7 @@ module.exports = class HomePage extends Page {
     async verifyAllSearchItemsContainText(text) {
         let itemFormats = await super.getElements(searchResultItemTitle);
 
-        for(let item of itemFormats) {
+        for (let item of itemFormats) {
             expect(await item.getText()).toContain(text);
         }
     }
@@ -85,11 +87,10 @@ module.exports = class HomePage extends Page {
     }
 
     async verifyResultsAreSorted() {
-        let searchItems = await super.getElements(searchResultsItemPrice);
-        
+
         //Verify that the products are sorted correctly.
-        let price1 = parseFloat((await searchItems[0].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
-        let price2 = parseFloat((await searchItems[1].getText()).replace(/[^\d,.]/, '').replace(',', '.'))
+        let price1 = parseFloat((await searchResultsItemPrice.getText()).replace(/[^\d,.]/, '').replace(',', '.'))
+        let price2 = parseFloat((await searchResultsItemPrice2.getText()).replace(/[^\d,.]/, '').replace(',', '.'))
 
         expect(price1).toBeGreaterThanOrEqual(price2)
     }
@@ -104,10 +105,10 @@ module.exports = class HomePage extends Page {
         await super.clickButton(filterResultsBtn);
     }
 
-    async verifyResultsFilter(text) {  
+    async verifyResultsFilter(text) {
         let itemFormats = await super.getElements(searchResultItemFormat)
 
-        for(let item of itemFormats) {
+        for (let item of itemFormats) {
             expect(await item.getText()).toContain(text)
         }
     }
@@ -118,22 +119,22 @@ module.exports = class HomePage extends Page {
 
         expect(searchCountFilteredNum).toBeLessThan(searchCountNum)
     }
-    async addElementInCart(choosenIndex){
+    async addElementInCart(choosenIndex) {
         const addCartButton = By.css(`div:nth-child(${choosenIndex}) > div.item-actions > div`)
         await super.clickButton(addCartButton)
     }
-    async checkIfButtonExists(){
+    async checkIfButtonExists() {
         //expect(component.queryByText("Text I care about")).not.toBeInTheDocument();
         //expect(addCartButton.exists()).toBeTruthy()
         //expect(addCartButton).not.toBeVisible()
         //isDisplayed().toBe(true)
     }
-    async checkAddToCartPopupWindow(){
+    async checkAddToCartPopupWindow() {
         expect(addToCartPopupWindow)
     }
-    async continueShoping(){
+    async continueShoping() {
         await super.clickButton(continueShoping)
     }
-    
+
 
 }

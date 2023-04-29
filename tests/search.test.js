@@ -26,12 +26,6 @@ describe('Search products', () => {
         HomePage = new HomePage(driver)
 
         await HomePage.openUrl()
-        const closeDumbMenu = By.className('modal-content')
-        const closeDumbMenuButt = By.css('div.modal-header > button.close')
-        //if (closeDumbMenu.isDisplayed()){
-        await HomePage.clickButton(closeDumbMenuButt)
-        //}
-        await HomePage.agreeWithCookies()
         
     })
 
@@ -45,7 +39,7 @@ describe('Search products', () => {
 
 
     test('Test Open Web Page', async () => {
-        await HomePage.verifyPageTitleContains('Bookdepository.com')
+        await HomePage.verifyPageTitleContains('abebooks.com')
     })
 
     test('Test Search by Keyword', async () => {
